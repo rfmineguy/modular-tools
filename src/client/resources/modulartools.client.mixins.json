@@ -1,9 +1,9 @@
 {
 	"required": true,
-	"package": "com.example.mixin",
+	"package": "io.github.rfmineguy.modulartools.client",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ExampleMixin"
+	"client": [
+		"ModularToolsClientMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
