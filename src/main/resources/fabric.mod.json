@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"io.github.rfmineguy.modulartools.ModularToolsClient"
+		],
+		"fabric-datagen": [
+			"io.github.rfmineguy.modulartools.datagen.DatagenEntryPoint"
 		]
 	},
 	"mixins": [

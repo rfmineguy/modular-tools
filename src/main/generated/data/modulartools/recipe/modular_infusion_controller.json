@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "c": {
+      "item": "minecraft:crafting_table"
+    },
+    "m": {
+      "item": "modulartools:modularium"
+    }
+  },
+  "pattern": [
+    "mmm",
+    "mcm",
+    "mmm"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulartools:modular_infusion_controller"
+  }
+}
