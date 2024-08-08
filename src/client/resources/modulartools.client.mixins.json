@@ -3,7 +3,8 @@
 	"package": "io.github.rfmineguy.modulartools.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ModularToolsClientMixin"
+		"ModularToolsClientMixin",
+		"TooltipComponentMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -1,5 +1,6 @@
-package io.github.rfmineguy.modulartools.items;
+package io.github.rfmineguy.modulartools.modules;
 
+import io.github.rfmineguy.modulartools.ModularLevel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.world.World;
@@ -20,18 +21,18 @@ public class MiningSizeModule extends Module {
 
     MiningSize size;
 
-    public MiningSizeModule(MiningSize size) {
-        super();
+    public MiningSizeModule(ModularLevel level, MiningSize size) {
+        super(level);
         this.size = size;
     }
 
     @Override
-    boolean fitsInTool(ItemStack stack) {
+    public boolean fitsInTool(ItemStack stack) {
         return stack.getItem() instanceof PickaxeItem || stack.getItem() instanceof ShovelItem;
     }
 
     @Override
-    void perform(World world, PlayerEntity player, ItemStack toolItem) {
+    public void perform(World world, PlayerEntity player, ItemStack toolItem) {
         if (!fitsInTool(toolItem)) return;
     }
 }

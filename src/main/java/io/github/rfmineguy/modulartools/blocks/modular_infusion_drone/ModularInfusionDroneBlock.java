@@ -1,8 +1,12 @@
 package io.github.rfmineguy.modulartools.blocks.modular_infusion_drone;
 
+import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller.ModularInfusionControllerBlockEntity;
+import io.github.rfmineguy.modulartools.util.MultiblockUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -14,6 +18,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class ModularInfusionDroneBlock extends Block implements BlockEntityProvider {
@@ -55,6 +60,32 @@ public class ModularInfusionDroneBlock extends Block implements BlockEntityProvi
             return ActionResult.SUCCESS;
         }
         return super.onUse(state, world, pos, player, hit);
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        if (world.getBlockEntity(pos) instanceof ModularInfusionDroneBlockEntity) {
+            BlockPos controller = MultiblockUtil.getNearbyControllerBlockPosition(world, pos);
+            if (controller != null && world.getBlockEntity(controller) instanceof ModularInfusionControllerBlockEntity controllerBlockEntity) {
+                controllerBlockEntity.addDrone(pos);
+            }
+        }
+        super.onPlaced(world, pos, state, placer, itemStack);
+    }
+
+    @Override
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        BlockEntity be = world.getBlockEntity(pos);
+        if (!(be instanceof ModularInfusionDroneBlockEntity mbe)) return super.onBreak(world, pos, state, player);
+
+        // drop the active item
+        world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, mbe.getActiveStack()));
+
+        // remove drone from controller
+        ModularInfusionControllerBlockEntity controllerBlock = mbe.getController();
+        if (controllerBlock != null)
+            controllerBlock.removeDrone(pos);
+        return super.onBreak(world, pos, state, player);
     }
 
     @Nullable

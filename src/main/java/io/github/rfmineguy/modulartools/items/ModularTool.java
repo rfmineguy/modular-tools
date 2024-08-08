@@ -1,2 +1,4 @@
-package io.github.rfmineguy.modulartools.items;public interface ModularTool {
+package io.github.rfmineguy.modulartools.items;
+
+public interface ModularTool {
 }

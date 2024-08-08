@@ -1,8 +1,15 @@
 {
   "block.modulartools.deepslate_modularium_ore": "Deepslate Modularium Ore",
+  "block.modulartools.level_1": "Level I Block",
+  "block.modulartools.level_2": "Level II Block",
+  "block.modulartools.level_3": "Level III Block",
+  "block.modulartools.level_4": "Level IV Block",
   "block.modulartools.modular_infusion_controller": "Modular Infusion Controller",
   "block.modulartools.modular_infusion_drone": "Modular Infusion Drone",
   "block.modulartools.modularium_ore": "Modularium Ore",
+  "item.modulartools.3x1.one": "3x1 One Module",
   "item.modulartools.modular_pickaxe": "Modular Pickaxe",
-  "item.modulartools.modularium": "Modularium"
+  "item.modulartools.modularium": "Modularium",
+  "item.modulartools.speed.one": "Speed One Module",
+  "item.modulartools.speed.two": "Speed Two Module"
 }
