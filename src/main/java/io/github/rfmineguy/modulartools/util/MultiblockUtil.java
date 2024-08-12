@@ -1,9 +1,13 @@
 package io.github.rfmineguy.modulartools.util;
 
+import com.leakyabstractions.result.api.Result;
+import com.leakyabstractions.result.core.Results;
 import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller.ModularInfusionControllerBlockEntity;
+import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller_2.ModularInfusionController2BlockEntity;
 import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInfusionDroneBlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 
 import java.util.HashSet;
 
@@ -45,5 +49,19 @@ public class MultiblockUtil {
         if (isControllerBlockEntity(world, pos.east(2).south(2))) return pos.east(2).south(2);
 
         return null;
+    }
+
+    public static Result<ModularInfusionController2BlockEntity, String> getNearbyController(WorldAccess world, BlockPos pos) {
+        if (world.getBlockEntity(pos.west(3)) instanceof ModularInfusionController2BlockEntity mbe) return Results.success(mbe);
+        if (world.getBlockEntity(pos.east(3)) instanceof ModularInfusionController2BlockEntity mbe) return Results.success(mbe);
+        if (world.getBlockEntity(pos.north(3)) instanceof ModularInfusionController2BlockEntity mbe) return Results.success(mbe);
+        if (world.getBlockEntity(pos.south(3)) instanceof ModularInfusionController2BlockEntity mbe) return Results.success(mbe);
+
+        if (world.getBlockEntity(pos.west(2).north(2)) instanceof ModularInfusionController2BlockEntity mbe) return Results.success(mbe);
+        if (world.getBlockEntity(pos.west(2).south(2)) instanceof ModularInfusionController2BlockEntity mbe) return Results.success(mbe);
+        if (world.getBlockEntity(pos.east(2).north(2)) instanceof ModularInfusionController2BlockEntity mbe) return Results.success(mbe);
+        if (world.getBlockEntity(pos.east(2).south(2)) instanceof ModularInfusionController2BlockEntity mbe) return Results.success(mbe);
+
+        return Results.failure("No nearby controller");
     }
 }

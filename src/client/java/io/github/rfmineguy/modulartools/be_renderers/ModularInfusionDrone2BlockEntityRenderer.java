@@ -10,12 +10,11 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
-public class ModularInfusionDroneBlock2EntityRenderer implements BlockEntityRenderer<ModularInfusionDrone2BlockEntity> {
-    public ModularInfusionDroneBlock2EntityRenderer(BlockEntityRendererFactory.Context ctx) {
+public class ModularInfusionDrone2BlockEntityRenderer implements BlockEntityRenderer<ModularInfusionDrone2BlockEntity> {
+    public ModularInfusionDrone2BlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
     }
 
     // Code from ItemEntityRenderer
@@ -24,23 +23,23 @@ public class ModularInfusionDroneBlock2EntityRenderer implements BlockEntityRend
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
 
         // Render module item
-        if (entity.getActiveStack() != ItemStack.EMPTY) {
-            BakedModel model = itemRenderer.getModel(entity.getActiveStack(), entity.getWorld(), (LivingEntity) null, 0);
+        if (entity.hasModuleStack()) {
+            BakedModel model = itemRenderer.getModel(entity.getModuleStack(), entity.getWorld(), (LivingEntity) null, 0);
             float j = MathHelper.sin((float) (entity.getAge() * 10 + entity.getAngleOffset())) * 0.1f + 0.75f;
             float k = model.getTransformation().getTransformation(ModelTransformationMode.GROUND).scale.y();
             matrices.push();
             matrices.translate(0.5F, j + 0.75F * k, 0.5F);
             matrices.scale(0.5f, 0.5f, 0.5f);
             matrices.multiply(RotationAxis.POSITIVE_Y.rotation(entity.getAge() * 2));
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getActiveStack(), ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, entity.getWorld(), 0);
+            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getModuleStack(), ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, entity.getWorld(), 0);
             matrices.pop();
         }
 
-        if (entity.getLevelStack() != ItemStack.EMPTY) {
+        if (entity.hasLevelStack()) {
             matrices.push();
             matrices.translate(0.5f, 1/16f, 0.5f);
             matrices.scale(2f, 2f, 2f);
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getLevelStack(), ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, entity.getWorld(), 0);
+            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getModularLevel().getLevelStack(), ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, entity.getWorld(), 0);
             matrices.pop();
         }
     }

@@ -4,7 +4,6 @@ import io.github.rfmineguy.modulartools.util.CommonInputUtil;
 import io.github.rfmineguy.modulartools.util.InputUtil;
 import net.fabricmc.api.ModInitializer;
 
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +22,7 @@ public class ModularToolsMod implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("Hello Fabric world!");
-		Registration.registerAll();
+		ModRegistration.registerAll();
 		INPUT_UTIL = new CommonInputUtil();
 	}
 }

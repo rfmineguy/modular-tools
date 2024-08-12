@@ -1,6 +1,6 @@
 package io.github.rfmineguy.modulartools.blocks.modular_infusion_controller;
 
-import io.github.rfmineguy.modulartools.Registration;
+import io.github.rfmineguy.modulartools.ModRegistration;
 import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInfusionDroneBlockEntity;
 import io.github.rfmineguy.modulartools.util.MultiblockUtil;
 import net.minecraft.block.*;
@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ModularInfusionControllerBlock extends Block implements BlockEntityProvider {
     public ModularInfusionControllerBlock() {
@@ -108,7 +107,7 @@ public class ModularInfusionControllerBlock extends Block implements BlockEntity
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (type != Registration.MODULAR_INFUSION_CONTROLLER_BLOCK_ENTITY) return null;
+        if (type != ModRegistration.ModBlockEntities.MODULAR_INFUSION_CONTROLLER_BLOCK_ENTITY) return null;
         return ModularInfusionControllerBlockEntity::tick;
     }
 }

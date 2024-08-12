@@ -3,7 +3,6 @@
 	"package": "io.github.rfmineguy.modulartools.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-      "ModularToolsMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

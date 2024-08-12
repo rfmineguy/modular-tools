@@ -4,7 +4,7 @@ import com.leakyabstractions.result.core.Results;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import io.github.rfmineguy.modulartools.ModularLevel;
-import io.github.rfmineguy.modulartools.Registration;
+import io.github.rfmineguy.modulartools.ModRegistration;
 import io.github.rfmineguy.modulartools.blocks.PedestalBlockEntity;
 import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInfusionDroneBlockEntity;
 import io.github.rfmineguy.modulartools.components.ModularToolComponentRecord;
@@ -74,7 +74,7 @@ public class ModularInfusionControllerBlockEntity extends PedestalBlockEntity {
     private ModularLevel modularLevel;
 
     public ModularInfusionControllerBlockEntity(BlockPos pos, BlockState state) {
-        super(Registration.MODULAR_INFUSION_CONTROLLER_BLOCK_ENTITY, pos, state);
+        super(ModRegistration.ModBlockEntities.MODULAR_INFUSION_CONTROLLER_BLOCK_ENTITY, pos, state);
     }
 
     @Override
@@ -160,8 +160,8 @@ public class ModularInfusionControllerBlockEntity extends PedestalBlockEntity {
      */
     public Result<ItemStack, InsertToolError> tryInsertModularTool(ItemStack stack) {
         // Stack must have component
-        if (!stack.contains(Registration.MODULAR_TOOL_COMPONENT)) return Results.failure(InsertToolError.NOT_MODULAR_TOOL(stack));
-        ModularToolComponentRecord componentRecord = stack.get(Registration.MODULAR_TOOL_COMPONENT);
+        if (!stack.contains(ModRegistration.ModComponents.MODULAR_TOOL_COMPONENT)) return Results.failure(InsertToolError.NOT_MODULAR_TOOL(stack));
+        ModularToolComponentRecord componentRecord = stack.get(ModRegistration.ModComponents.MODULAR_TOOL_COMPONENT);
         if (componentRecord == null) return Results.failure(InsertToolError.NOT_MODULAR_TOOL(stack));
 
         // Module list must not be null
@@ -195,10 +195,10 @@ public class ModularInfusionControllerBlockEntity extends PedestalBlockEntity {
             ItemStack droneItemStack = drone.getActiveStack();
             Identifier droneStackId = Registries.ITEM.getId(droneItemStack.getItem());
             if (!(stack.getItem() instanceof ModularPickaxeItem)) {
-                setActiveStack(Registration.MODULAR_PICKAXE.getDefaultStack());
+                setActiveStack(ModRegistration.ModItems.MODULAR_PICKAXE.getDefaultStack());
             }
             record = record.appendModule(droneStackId);
-            controllerStack.set(Registration.MODULAR_TOOL_COMPONENT, record);
+            controllerStack.set(ModRegistration.ModComponents.MODULAR_TOOL_COMPONENT, record);
             drone.setActiveStack(ItemStack.EMPTY);
         }
         setActiveStack(ItemStack.EMPTY);
@@ -221,17 +221,17 @@ public class ModularInfusionControllerBlockEntity extends PedestalBlockEntity {
         for (ModularInfusionDroneBlockEntity drone : drones) {
             ItemStack s = drone.getActiveStack();
             Identifier sId = Registries.ITEM.getId(s.getItem());
-            if (!Registration.MODULE_REGISTRY.containsId(sId)) {
+            if (!ModRegistration.ModRegistries.MODULE_REGISTRY.containsId(sId)) {
                 System.out.println("Skipping item: " + s);
                 continue;
             }
             if (!(original.getItem() instanceof ModularPickaxeItem)) {
-                setActiveStack(Registration.MODULAR_PICKAXE.getDefaultStack());
+                setActiveStack(ModRegistration.ModItems.MODULAR_PICKAXE.getDefaultStack());
             }
             componentRecord = componentRecord.appendModule(sId);
             drone.setActiveStack(ItemStack.EMPTY);
         }
-        getActiveStack().set(Registration.MODULAR_TOOL_COMPONENT, componentRecord);
+        getActiveStack().set(ModRegistration.ModComponents.MODULAR_TOOL_COMPONENT, componentRecord);
         return true;
     }
 

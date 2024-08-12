@@ -1,9 +1,8 @@
 package io.github.rfmineguy.modulartools.datagen;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.rfmineguy.modulartools.ModRegistration;
 import io.github.rfmineguy.modulartools.ModularToolsMod;
-import io.github.rfmineguy.modulartools.Registration;
 import io.github.rfmineguy.modulartools.items.ActivatorItem;
 import io.github.rfmineguy.modulartools.modules.Module;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -12,19 +11,16 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.block.Block;
 import net.minecraft.data.client.*;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class DatagenEntryPoint implements DataGeneratorEntrypoint {
@@ -44,13 +40,13 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
 
         @Override
         public void generate(RecipeExporter exporter) {
-            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, Registration.MODULAR_INFUSION_CONTROLLER)
+            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModRegistration.ModBlocks.MODULAR_INFUSION_CONTROLLER)
                     .pattern("mmm")
                     .pattern("mcm")
                     .pattern("mmm")
-                    .input('m', Registration.MODULARIUM)
+                    .input('m', ModRegistration.ModItems.MODULARIUM)
                     .input('c', Items.CRAFTING_TABLE)
-                    .criterion(FabricRecipeProvider.hasItem(Registration.MODULARIUM), FabricRecipeProvider.conditionsFromItem(Registration.MODULARIUM))
+                    .criterion(FabricRecipeProvider.hasItem(ModRegistration.ModItems.MODULARIUM), FabricRecipeProvider.conditionsFromItem(ModRegistration.ModItems.MODULARIUM))
                     .criterion(FabricRecipeProvider.hasItem(Items.CRAFTING_TABLE), FabricRecipeProvider.conditionsFromItem(Items.CRAFTING_TABLE))
                     .offerTo(exporter);
         }
@@ -62,22 +58,24 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
 
         @Override
         public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.DEEPSLATE_MODULARIUM_ORE);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.MODULARIUM_ORE);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.LEVEL1_BLOCK);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.LEVEL2_BLOCK);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.LEVEL3_BLOCK);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.LEVEL4_BLOCK);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.LEVEL5_BLOCK);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.LEVEL6_BLOCK);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.LEVEL7_BLOCK);
-            blockStateModelGenerator.registerSimpleCubeAll(Registration.LEVEL8_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.DEEPSLATE_MODULARIUM_ORE);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.MODULARIUM_ORE);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.ERROR_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.LEVEL1_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.LEVEL2_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.LEVEL3_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.LEVEL4_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.LEVEL5_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.LEVEL6_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.LEVEL7_BLOCK);
+            blockStateModelGenerator.registerSimpleCubeAll(ModRegistration.ModBlocks.LEVEL8_BLOCK);
             // blockStateModelGenerator.registerSimpleCubeAll(Registration.TEST_CONTROLLER);
 
-            blockStateModelGenerator.registerSimpleState(Registration.MODULAR_INFUSION_DRONE);
-            blockStateModelGenerator.registerSimpleState(Registration.MODULAR_INFUSION_CONTROLLER);
-            blockStateModelGenerator.registerSimpleState(Registration.MODULAR_INFUSION_DRONE2);
-            blockStateModelGenerator.registerSimpleState(Registration.TEST_CONTROLLER);
+            blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.MODULAR_INFUSION_DRONE);
+            blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.MODULAR_INFUSION_CONTROLLER);
+            blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.MODULAR_INFUSION_DRONE2);
+            blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.MODULAR_INFUSION_CONTROLLER2);
+            blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.TEST_CONTROLLER);
         }
 
         Identifier idOf(Item item) {
@@ -85,14 +83,14 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
         }
         @Override
         public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-            itemModelGenerator.register(Registration.MODULARIUM, Models.GENERATED);
-            itemModelGenerator.register(Registration.MODULAR_PICKAXE, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.MODULARIUM, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.MODULAR_PICKAXE, Models.GENERATED);
 
-            itemModelGenerator.writer.accept(Registries.ITEM.getId(Registration.LEVEL1_ACTIVATOR).withPrefixedPath("item/"), () -> {
-                return generateActivatorItemModel(Registration.LEVEL1_ACTIVATOR);
+            itemModelGenerator.writer.accept(Registries.ITEM.getId(ModRegistration.ModItems.LEVEL1_ACTIVATOR).withPrefixedPath("item/"), () -> {
+                return generateActivatorItemModel(ModRegistration.ModItems.LEVEL1_ACTIVATOR);
             });
-            Registration.MODULE_REGISTRY.forEach(module -> {
-                Identifier id = Registration.MODULE_REGISTRY.getId(module);
+            ModRegistration.ModRegistries.MODULE_REGISTRY.forEach(module -> {
+                Identifier id = ModRegistration.ModRegistries.MODULE_REGISTRY.getId(module);
                 assert id != null;
                 itemModelGenerator.writer.accept(id.withPrefixedPath("item/"), () -> {
                     return moduleItem(module);
@@ -145,21 +143,21 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
 
         @Override
         public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-            translationBuilder.add(Registration.MODULARIUM, "Modularium");
-            translationBuilder.add(Registration.MODULARIUM_ORE, "Modularium Ore");
-            translationBuilder.add(Registration.DEEPSLATE_MODULARIUM_ORE, "Deepslate Modularium Ore");
+            translationBuilder.add(ModRegistration.ModItems.MODULARIUM, "Modularium");
+            translationBuilder.add(ModRegistration.ModBlocks.MODULARIUM_ORE, "Modularium Ore");
+            translationBuilder.add(ModRegistration.ModBlocks.DEEPSLATE_MODULARIUM_ORE, "Deepslate Modularium Ore");
 
-            translationBuilder.add(Registration.MODULAR_INFUSION_CONTROLLER, "Modular Infusion Controller");
-            translationBuilder.add(Registration.MODULAR_INFUSION_DRONE, "Modular Infusion Drone");
+            translationBuilder.add(ModRegistration.ModBlocks.MODULAR_INFUSION_CONTROLLER, "Modular Infusion Controller");
+            translationBuilder.add(ModRegistration.ModBlocks.MODULAR_INFUSION_DRONE, "Modular Infusion Drone");
 
-            translationBuilder.add(Registration.MODULAR_PICKAXE, "Modular Pickaxe");
+            translationBuilder.add(ModRegistration.ModItems.MODULAR_PICKAXE, "Modular Pickaxe");
 
-            translationBuilder.add(Registration.LEVEL1_BLOCK, "Level I Block");
-            translationBuilder.add(Registration.LEVEL2_BLOCK, "Level II Block");
-            translationBuilder.add(Registration.LEVEL3_BLOCK, "Level III Block");
-            translationBuilder.add(Registration.LEVEL4_BLOCK, "Level IV Block");
+            translationBuilder.add(ModRegistration.ModBlocks.LEVEL1_BLOCK, "Level I Block");
+            translationBuilder.add(ModRegistration.ModBlocks.LEVEL2_BLOCK, "Level II Block");
+            translationBuilder.add(ModRegistration.ModBlocks.LEVEL3_BLOCK, "Level III Block");
+            translationBuilder.add(ModRegistration.ModBlocks.LEVEL4_BLOCK, "Level IV Block");
 
-            Registration.MODULE_REGISTRY.forEach(module -> {
+            ModRegistration.ModRegistries.MODULE_REGISTRY.forEach(module -> {
                 Identifier moduleName = module.getRegistryId();
                 System.out.println(moduleName.getPath());
                 String[] split = moduleName.getPath().split("\\.");

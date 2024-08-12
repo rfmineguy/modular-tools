@@ -1,11 +1,9 @@
 package io.github.rfmineguy.modulartools.modules;
 
+import io.github.rfmineguy.modulartools.ModRegistration;
 import io.github.rfmineguy.modulartools.ModularLevel;
-import io.github.rfmineguy.modulartools.Registration;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -31,7 +29,7 @@ public abstract class Module {
     public abstract boolean fitsInTool(ItemStack stack);
     public abstract void perform(World world, PlayerEntity player, ItemStack toolItem);
     public Identifier getRegistryId() {
-        return Registration.MODULE_REGISTRY.getId(this);
+        return ModRegistration.ModRegistries.MODULE_REGISTRY.getId(this);
     }
 
     public ModularLevel getLevel() {
