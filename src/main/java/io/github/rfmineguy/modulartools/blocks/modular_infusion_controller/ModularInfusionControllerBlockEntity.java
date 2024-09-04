@@ -8,7 +8,7 @@ import io.github.rfmineguy.modulartools.ModRegistration;
 import io.github.rfmineguy.modulartools.blocks.PedestalBlockEntity;
 import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInfusionDroneBlockEntity;
 import io.github.rfmineguy.modulartools.components.ModularToolComponentRecord;
-import io.github.rfmineguy.modulartools.items.ModularPickaxeItem;
+import io.github.rfmineguy.modulartools.items.modulartools.ModularPickaxeItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.Item;
@@ -132,15 +132,15 @@ public class ModularInfusionControllerBlockEntity extends PedestalBlockEntity {
 
     private void populateDrones(ModularToolComponentRecord componentRecord) {
         Iterator<BlockPos> droneIterator = drones.iterator();
-        for (Identifier id : componentRecord.getModuleIds()) {
-            if (droneIterator.hasNext()) {
-                BlockPos pos = droneIterator.next();
-                assert world != null;
-                if (world.getBlockEntity(pos) instanceof ModularInfusionDroneBlockEntity drone) {
-                    drone.setActiveStack(Registries.ITEM.get(id).getDefaultStack());
-                }
-            }
-        }
+        // for (Identifier id : componentRecord.modules()) {
+        //     if (droneIterator.hasNext()) {
+        //         BlockPos pos = droneIterator.next();
+        //         assert world != null;
+        //         if (world.getBlockEntity(pos) instanceof ModularInfusionDroneBlockEntity drone) {
+        //             drone.setActiveStack(Registries.ITEM.get(id).getDefaultStack());
+        //         }
+        //     }
+        // }
     }
 
     private boolean hasDuplicates(List<ModularInfusionDroneBlockEntity> drones) {
@@ -165,10 +165,10 @@ public class ModularInfusionControllerBlockEntity extends PedestalBlockEntity {
         if (componentRecord == null) return Results.failure(InsertToolError.NOT_MODULAR_TOOL(stack));
 
         // Module list must not be null
-        if (componentRecord.getModuleIds() == null) return Results.failure(InsertToolError.NOT_MODULAR_TOOL(stack));
+        // if (componentRecord.getModuleIds() == null) return Results.failure(InsertToolError.NOT_MODULAR_TOOL(stack));
 
         // Module list must not be larger than the number of drones
-        if (componentRecord.getModuleIds().size() > drones.size()) return Results.failure(InsertToolError.TOO_MANY_MODULES(stack));
+        // if (componentRecord.getModuleIds().size() > drones.size()) return Results.failure(InsertToolError.TOO_MANY_MODULES(stack));
 
         ItemStack old = getActiveStack();
         setActiveStack(stack);
@@ -197,7 +197,7 @@ public class ModularInfusionControllerBlockEntity extends PedestalBlockEntity {
             if (!(stack.getItem() instanceof ModularPickaxeItem)) {
                 setActiveStack(ModRegistration.ModItems.MODULAR_PICKAXE.getDefaultStack());
             }
-            record = record.appendModule(droneStackId);
+            // record = record.appendModule(droneStackId);
             controllerStack.set(ModRegistration.ModComponents.MODULAR_TOOL_COMPONENT, record);
             drone.setActiveStack(ItemStack.EMPTY);
         }
@@ -228,7 +228,7 @@ public class ModularInfusionControllerBlockEntity extends PedestalBlockEntity {
             if (!(original.getItem() instanceof ModularPickaxeItem)) {
                 setActiveStack(ModRegistration.ModItems.MODULAR_PICKAXE.getDefaultStack());
             }
-            componentRecord = componentRecord.appendModule(sId);
+            // componentRecord = componentRecord.appendModule(sId);
             drone.setActiveStack(ItemStack.EMPTY);
         }
         getActiveStack().set(ModRegistration.ModComponents.MODULAR_TOOL_COMPONENT, componentRecord);

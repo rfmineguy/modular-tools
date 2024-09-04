@@ -1,4 +1,4 @@
-package io.github.rfmineguy.modulartools.client;
+package io.github.rfmineguy.modulartools.client.mixin;
 
 import io.github.rfmineguy.modulartools.events.custom.BlockBreakDirectionEvent;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;

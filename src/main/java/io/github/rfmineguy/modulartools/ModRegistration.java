@@ -10,21 +10,28 @@ import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInf
 import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone2.ModularInfusionDrone2Block;
 import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone2.ModularInfusionDrone2BlockEntity;
 import io.github.rfmineguy.modulartools.commands.ModuleCommand;
+import io.github.rfmineguy.modulartools.commands.RepairCommand;
 import io.github.rfmineguy.modulartools.components.LevelBlockComponentRecord;
 import io.github.rfmineguy.modulartools.components.ModularToolComponentRecord;
+import io.github.rfmineguy.modulartools.components.ModularToolComponentRecord2;
 import io.github.rfmineguy.modulartools.components.ModuleComponentRecord;
 import io.github.rfmineguy.modulartools.events.listeners.BlockBreakDirectionListener;
 import io.github.rfmineguy.modulartools.items.ActivatorItem;
 import io.github.rfmineguy.modulartools.items.LevelBlockItem;
-import io.github.rfmineguy.modulartools.items.ModularPickaxeItem;
+import io.github.rfmineguy.modulartools.items.modulartools.ModularPickaxeItem;
 import io.github.rfmineguy.modulartools.items.ModuleItem;
-import io.github.rfmineguy.modulartools.modules.MiningSizeModule;
-import io.github.rfmineguy.modulartools.modules.MiningSpeedModule;
+import io.github.rfmineguy.modulartools.items.modulartools.ModularShovelItem;
+import io.github.rfmineguy.modulartools.items.modulartools.ModularToolDamageHandler;
 import io.github.rfmineguy.modulartools.modules.Module;
+import io.github.rfmineguy.modulartools.networking.ModularToolSyncPayload;
+import io.github.rfmineguy.modulartools.screen.ModularToolScreenHandler;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -33,12 +40,17 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.suggestion.SuggestionProviders;
 import net.minecraft.component.ComponentType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.*;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.UUID;
 import java.util.function.Supplier;
 
 public class ModRegistration {
@@ -61,7 +73,11 @@ public class ModRegistration {
         }
 
         public static final Item MODULARIUM                   = registerItem("modularium", new Item(new Item.Settings()));
-        public static final Item MODULAR_PICKAXE              = registerItem("modular_pickaxe", new ModularPickaxeItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT)));
+        public static final Item MODULAR_PICKAXE              = registerItem("modular_pickaxe", new ModularPickaxeItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
+        public static final Item MODULAR_SHOVEL               = registerItem("modular_shovel", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
+        public static final Item MODULAR_AXE                  = registerItem("modular_axe", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
+        public static final Item MODULAR_HOE                  = registerItem("modular_hoe", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
+        public static final Item MODULAR_SWORD                = registerItem("modular_sword", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
         public static final ActivatorItem LEVEL1_ACTIVATOR    = registerActivatorItem("level1_activator", ModularLevel.ONE);
 
         public static void registerAll() {}
@@ -103,22 +119,19 @@ public class ModRegistration {
         public static void registerAll() {}
     }
     public static class ModModules {
-        private static Module registerModuleAndItem(String idString, ModularLevel level, Module module) {
-            ModItems.registerItem(idString, new ModuleItem(new Item.Settings().component(ModComponents.MODULE_COMPONENT, ModuleComponentRecord.ofLevel(level))));
+
+        private static Module registerModuleAndItem(String idString, Module module) {
+            ModItems.registerItem(idString, new ModuleItem(new Item.Settings().component(ModComponents.MODULE_COMPONENT, ModuleComponentRecord.ofLevel(module.getLevelEnum()))));
             return Registry.register(ModRegistries.MODULE_REGISTRY,
                     Identifier.of(ModularToolsMod.MODID, idString),
-                    module);
+                    module.setId(Identifier.of(ModularToolsMod.MODID, idString)));
         }
-        private static Module registerModuleForExistingItem(String idString, Module module) {
-            return Registry.register(ModRegistries.MODULE_REGISTRY,
-                    Identifier.of("minecraft", idString),
-                    module);
-        }
-        public static final Module MINING_SPEED_ONE           = registerModuleAndItem("speed.one", ModularLevel.ONE, new MiningSpeedModule(ModularLevel.ONE));
-        public static final Module MINING_SPEED_TWO           = registerModuleAndItem("speed.two", ModularLevel.TWO, new MiningSpeedModule(ModularLevel.TWO));
-        public static final Module MINING_SIZE_ONE            = registerModuleAndItem("3x3.one", ModularLevel.TWO, new MiningSizeModule(ModularLevel.TWO, MiningSizeModule.MiningSize.MINING_SIZE_3X3));
-        public static final Module MINING_SIZE_TWO            = registerModuleAndItem("5x5.one", ModularLevel.THREE, new MiningSizeModule(ModularLevel.THREE, MiningSizeModule.MiningSize.MINING_SIZE_5X5));
-        public static final Module MINING_SIZE_THREE           = registerModuleAndItem("21x21.one", ModularLevel.THREE, new MiningSizeModule(ModularLevel.THREE, MiningSizeModule.MiningSize.MINING_SIZE_21X21));
+        public static final Module MINING_SPEED_ONE           = registerModuleAndItem("speed.one", Module.of(ModularLevel.ONE, ModuleCategory.SPEED));
+        public static final Module MINING_SPEED_TWO           = registerModuleAndItem("speed.two", Module.of(ModularLevel.TWO, ModuleCategory.SPEED));
+        public static final Module MINING_SIZE_ONE            = registerModuleAndItem("3x3.one", Module.of(ModularLevel.ONE, ModuleCategory.MINING_SIZE));
+        public static final Module MINING_SIZE_TWO            = registerModuleAndItem("5x5.one", Module.of(ModularLevel.TWO, ModuleCategory.MINING_SIZE));
+        public static final Module MINING_SIZE_THREE          = registerModuleAndItem("21x21.one", Module.of(ModularLevel.THREE, ModuleCategory.MINING_SIZE));
+        public static final Module UNBREAKABLE                = registerModuleAndItem("unbreakable.one", Module.of(ModularLevel.THREE, ModuleCategory.UNBREAKABLE)) ;
 
         public static void registerAll() {}
     }
@@ -194,7 +207,7 @@ public class ModRegistration {
                     entries.add(ModBlocks.MODULAR_INFUSION_CONTROLLER);
                     entries.add(ModBlocks.MODULAR_INFUSION_DRONE);
                     ModRegistries.MODULE_REGISTRY.forEach(item -> {
-                        entries.add(Registries.ITEM.get(item.getRegistryId()));
+                        entries.add(Registries.ITEM.get(item.id()));
                     });
                 })).build()
         );
@@ -210,21 +223,54 @@ public class ModRegistration {
                 CommandSource.suggestFromIdentifier(
                         ModRegistries.MODULE_REGISTRY.stream(),
                         builder,
-                        Module::getRegistryId,
-                        module -> Text.literal(String.valueOf(ModRegistries.MODULE_REGISTRY.getId(module)))
+                        Module::id,
+                        module -> Text.literal(module.id().getPath()))
                 )
-        ));
+        );
 
         public static void registerAll() {
             CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
                 ModuleCommand.register(dispatcher, registryAccess);
+                RepairCommand.register(dispatcher, registryAccess);
+            });
+        }
+    }
+    public static class ModScreens {
+        private static <T extends ScreenHandler> ScreenHandlerType<T> registerScreenHandler(String id, ScreenHandlerType.Factory<T> factory) {
+            return Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ModularToolsMod.MODID, id), new ScreenHandlerType<>(factory, FeatureFlags.VANILLA_FEATURES));
+        }
+        private static <T extends ScreenHandler, D> ExtendedScreenHandlerType<T, D> registerExtendedScreenHandler(String id, ExtendedScreenHandlerType<T, D> extendedScreenHandlerType) {
+            Registry.register(Registries.SCREEN_HANDLER, Identifier.of(ModularToolsMod.MODID, id), extendedScreenHandlerType);
+            return extendedScreenHandlerType;
+
+        }
+
+        // public static final ScreenHandlerType<ModularToolScreenHandler> MODULAR_TOOL_SCREEN_HANDLER = registerScreenHandler("modular_tool", ModularToolScreenHandler::new);
+        public static final ExtendedScreenHandlerType<ModularToolScreenHandler, ModularToolScreenHandler.Data> MODULAR_TOOL_SCREEN_HANDLER_EXTENDED_SCREEN_HANDLER
+                = registerExtendedScreenHandler("modular_tool", new ExtendedScreenHandlerType<>(ModularToolScreenHandler::new, ModularToolScreenHandler.Data.PACKET_CODEC));
+
+        public static void registerAll() {
+        }
+    }
+    public static class ModNetworking {
+        public static final Identifier MODULAR_TOOL_PACKET_ID = Identifier.of(ModularToolsMod.MODID, "modular_tool_packet");
+        public static void registerAll() {
+            PayloadTypeRegistry.playC2S().register(ModularToolSyncPayload.ID, ModularToolSyncPayload.PACKET_CODEC);
+            ServerPlayNetworking.registerGlobalReceiver(ModularToolSyncPayload.ID, (payload, context) -> {
+                UUID uuid = payload.uuid();
+                ModularToolComponentRecord record = payload.record();
+                PlayerEntity player = context.player().getServerWorld().getPlayerByUuid(uuid);
+                assert player != null;
+                player.getMainHandStack().set(ModComponents.MODULAR_TOOL_COMPONENT, record);
             });
         }
     }
 
     public static void registerAll() {
+        ModNetworking.registerAll();
         ModRegistries.registerAll();
         ModComponents.registerAll();
+        ModScreens.registerAll();
         ModBlocks.registerAll();
         ModItems.registerAll();
         ModModules.registerAll();

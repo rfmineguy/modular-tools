@@ -4,10 +4,15 @@ import io.github.rfmineguy.modulartools.be_renderers.ModularInfusionController2B
 import io.github.rfmineguy.modulartools.be_renderers.ModularInfusionControllerBlockEntityRenderer;
 import io.github.rfmineguy.modulartools.be_renderers.ModularInfusionDrone2BlockEntityRenderer;
 import io.github.rfmineguy.modulartools.be_renderers.ModularInfusionDroneBlockEntityRenderer;
+import io.github.rfmineguy.modulartools.events.listeners.HudListener;
+import io.github.rfmineguy.modulartools.events.listeners.ModularToolScrollListener;
 import io.github.rfmineguy.modulartools.item_renderers.ActivatorItemRenderer;
 import io.github.rfmineguy.modulartools.models.ActivatorModel;
+import io.github.rfmineguy.modulartools.screen.ModularToolScreen;
+import io.github.rfmineguy.modulartools.screen.ModularToolScreenHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
@@ -25,6 +30,9 @@ public class ClientRegistration {
 
         EntityModelLayerRegistry.registerModelLayer(ACTIVATOR_MODEL_LAYER, ActivatorModel::getTexturedModelData);
 
-        // WorldRenderEvents.BLOCK_OUTLINE.register((worldRenderContext, blockOutlineContext) -> {});
+        HandledScreens.register(ModRegistration.ModScreens.MODULAR_TOOL_SCREEN_HANDLER_EXTENDED_SCREEN_HANDLER, ModularToolScreen::new);
+
+        // HudListener.register();
+        // ModularToolScrollListener.register();
     }
 }

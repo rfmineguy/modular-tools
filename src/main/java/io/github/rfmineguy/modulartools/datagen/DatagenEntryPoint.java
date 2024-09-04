@@ -85,6 +85,7 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
         public void generateItemModels(ItemModelGenerator itemModelGenerator) {
             itemModelGenerator.register(ModRegistration.ModItems.MODULARIUM, Models.GENERATED);
             itemModelGenerator.register(ModRegistration.ModItems.MODULAR_PICKAXE, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.MODULAR_SHOVEL, Models.GENERATED);
 
             itemModelGenerator.writer.accept(Registries.ITEM.getId(ModRegistration.ModItems.LEVEL1_ACTIVATOR).withPrefixedPath("item/"), () -> {
                 return generateActivatorItemModel(ModRegistration.ModItems.LEVEL1_ACTIVATOR);
@@ -106,9 +107,9 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
         }
 
         private JsonObject moduleItem(Module module) {
-            String[] module_split = module.getRegistryId().getPath().toString().split("\\.");
+            String[] module_split = module.id().getPath().toString().split("\\.");
             if (module_split.length != 2) {
-                System.err.printf("Module id not proper format %s%n", module.getRegistryId().toString());
+                System.err.printf("Module id not proper format %s%n", module.id().toString());
                 return new JsonObject();
             }
             String module_type = module_split[0];
@@ -158,7 +159,7 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
             translationBuilder.add(ModRegistration.ModBlocks.LEVEL4_BLOCK, "Level IV Block");
 
             ModRegistration.ModRegistries.MODULE_REGISTRY.forEach(module -> {
-                Identifier moduleName = module.getRegistryId();
+                Identifier moduleName = module.id();
                 System.out.println(moduleName.getPath());
                 String[] split = moduleName.getPath().split("\\.");
                 if (split.length != 2) {

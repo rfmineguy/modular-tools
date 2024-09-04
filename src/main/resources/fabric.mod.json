@@ -24,7 +24,7 @@
 		"fabric-datagen": [
 			"io.github.rfmineguy.modulartools.datagen.DatagenEntryPoint"
 		],
-		"jade-comment": [
+		"jade-uncomment-to-enable": [
 			"io.github.rfmineguy.modulartools.jade.ModularInfusionPlugin"
 		]
 	},

@@ -1,15 +1,16 @@
 {
-	"required": true,
-	"package": "io.github.rfmineguy.modulartools.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"ModularToolsClientMixin",
-		"TooltipComponentMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"mixins": [
-		"ServerPlayerInteractionManagerMixin"
-	]
+  "required": true,
+  "package": "io.github.rfmineguy.modulartools.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ModularToolsClientMixin",
+    "TooltipComponentMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "mixin.PlayerInventoryMixin",
+    "mixin.ServerPlayerInteractionManagerMixin"
+  ]
 }

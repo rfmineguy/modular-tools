@@ -2,6 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "modulartools:item/upgrade/background_tiers/one",
-    "layer1": "modulartools:item/upgrade/overlay/3x1"
+    "layer1": "modulartools:item/upgrade/overlay/5x5"
   }
 }

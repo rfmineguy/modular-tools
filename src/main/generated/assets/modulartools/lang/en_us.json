@@ -7,9 +7,12 @@
   "block.modulartools.modular_infusion_controller": "Modular Infusion Controller",
   "block.modulartools.modular_infusion_drone": "Modular Infusion Drone",
   "block.modulartools.modularium_ore": "Modularium Ore",
-  "item.modulartools.3x1.one": "3x1 One Module",
+  "item.modulartools.21x21.one": "21x21 One Module",
+  "item.modulartools.3x3.one": "3x3 One Module",
+  "item.modulartools.5x5.one": "5x5 One Module",
   "item.modulartools.modular_pickaxe": "Modular Pickaxe",
   "item.modulartools.modularium": "Modularium",
   "item.modulartools.speed.one": "Speed One Module",
-  "item.modulartools.speed.two": "Speed Two Module"
+  "item.modulartools.speed.two": "Speed Two Module",
+  "item.modulartools.unbreakable.one": "Unbreakable One Module"
 }

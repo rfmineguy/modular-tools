@@ -19,6 +19,7 @@ public class ModularToolTooltipComponent implements TooltipComponent {
     public ModularToolTooltipComponent(ModularToolComponentRecord componentRecord) {
         this.componentRecord = componentRecord;
     }
+
     @Override
     public int getHeight() {
         return 50;
@@ -36,10 +37,10 @@ public class ModularToolTooltipComponent implements TooltipComponent {
         final int[] i = {0};
         final int[] j = {0};
         context.drawGuiTexture(BACKGROUND_TEXTURE, x, y, 50, 50);
-        this.componentRecord.getModuleIds().forEach(identifier -> {
-            if (Registries.ITEM.get(identifier) == Items.AIR) return;
+        this.componentRecord.modules().forEach((key, data) -> {
+            if (Registries.ITEM.get(data.module().id()) == Items.AIR) return;
             context.drawBorder(x + i[0] * 17, y + j[0] * 17, 16, 16, Colors.WHITE);
-            Item item = Registries.ITEM.get(identifier);
+            Item item = Registries.ITEM.get(data.module().id());
             context.drawItem(item.getDefaultStack(), x + i[0] * 17, y + j[0] * 17);
             i[0]++;
             if (i[0] > 2) {
