@@ -69,11 +69,9 @@ public record Module(int level, int category, Identifier id) {
     public String toString() {
         return "Module {id: %s, level: %s, category: %s}".formatted(id().getPath(), getLevelEnum().name(), getCategoryEnum().name());
     }
-
     private String upperFirst(String s) {
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
-
     public String humanString() {
         Identifier moduleName = id();
         String[] split = moduleName.getPath().split("\\.");

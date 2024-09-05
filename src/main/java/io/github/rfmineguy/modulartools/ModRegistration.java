@@ -18,10 +18,8 @@ import io.github.rfmineguy.modulartools.components.ModuleComponentRecord;
 import io.github.rfmineguy.modulartools.events.listeners.BlockBreakDirectionListener;
 import io.github.rfmineguy.modulartools.items.ActivatorItem;
 import io.github.rfmineguy.modulartools.items.LevelBlockItem;
-import io.github.rfmineguy.modulartools.items.modulartools.ModularPickaxeItem;
+import io.github.rfmineguy.modulartools.items.modulartools.*;
 import io.github.rfmineguy.modulartools.items.ModuleItem;
-import io.github.rfmineguy.modulartools.items.modulartools.ModularShovelItem;
-import io.github.rfmineguy.modulartools.items.modulartools.ModularToolDamageHandler;
 import io.github.rfmineguy.modulartools.modules.Module;
 import io.github.rfmineguy.modulartools.networking.ModularToolSyncPayload;
 import io.github.rfmineguy.modulartools.screen.ModularToolScreenHandler;
@@ -75,9 +73,9 @@ public class ModRegistration {
         public static final Item MODULARIUM                   = registerItem("modularium", new Item(new Item.Settings()));
         public static final Item MODULAR_PICKAXE              = registerItem("modular_pickaxe", new ModularPickaxeItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
         public static final Item MODULAR_SHOVEL               = registerItem("modular_shovel", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
-        public static final Item MODULAR_AXE                  = registerItem("modular_axe", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
-        public static final Item MODULAR_HOE                  = registerItem("modular_hoe", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
-        public static final Item MODULAR_SWORD                = registerItem("modular_sword", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
+        public static final Item MODULAR_AXE                  = registerItem("modular_axe", new ModularAxeItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
+        public static final Item MODULAR_HOE                  = registerItem("modular_hoe", new ModularHoeItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
+        // public static final Item MODULAR_SWORD                = registerItem("modular_sword", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
         public static final ActivatorItem LEVEL1_ACTIVATOR    = registerActivatorItem("level1_activator", ModularLevel.ONE);
 
         public static void registerAll() {}
@@ -192,6 +190,9 @@ public class ModRegistration {
                     entries.add(ModItems.MODULARIUM);
                     entries.add(ModItems.LEVEL1_ACTIVATOR);
                     entries.add(ModItems.MODULAR_PICKAXE);
+                    entries.add(ModItems.MODULAR_AXE);
+                    entries.add(ModItems.MODULAR_HOE);
+                    entries.add(ModItems.MODULAR_SHOVEL);
                     entries.add(ModBlocks.MODULARIUM_ORE);
                     entries.add(ModBlocks.LEVEL1_BLOCK);
                     entries.add(ModBlocks.LEVEL2_BLOCK);

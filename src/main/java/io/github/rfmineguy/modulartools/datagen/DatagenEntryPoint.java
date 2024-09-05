@@ -152,6 +152,9 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
             translationBuilder.add(ModRegistration.ModBlocks.MODULAR_INFUSION_DRONE, "Modular Infusion Drone");
 
             translationBuilder.add(ModRegistration.ModItems.MODULAR_PICKAXE, "Modular Pickaxe");
+            translationBuilder.add(ModRegistration.ModItems.MODULAR_SHOVEL, "Modular Shovel");
+            translationBuilder.add(ModRegistration.ModItems.MODULAR_AXE, "Modular Axe");
+            translationBuilder.add(ModRegistration.ModItems.MODULAR_HOE, "Modular Hoe");
 
             translationBuilder.add(ModRegistration.ModBlocks.LEVEL1_BLOCK, "Level I Block");
             translationBuilder.add(ModRegistration.ModBlocks.LEVEL2_BLOCK, "Level II Block");

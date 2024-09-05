@@ -57,12 +57,12 @@ public class ModularAxeItem extends AxeItem implements ModularTool, NamedScreenH
 
     @Override
     public Optional<TooltipData> getTooltipData(ItemStack stack) {
-        return ModularTool.getTooltipData(stack);
+        return ModularToolUtil.getTooltipData(stack);
     }
 
     @Override
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        if (!ModularTool.canMine(miner.getMainHandStack(), state)) return false;
+        if (!ModularToolUtil.canMine(miner.getMainHandStack(), state)) return false;
         return super.canMine(state, world, pos, miner);
     }
 
@@ -70,8 +70,8 @@ public class ModularAxeItem extends AxeItem implements ModularTool, NamedScreenH
     public float getModularMiningSpeed(ItemStack stack, float defaultSpeed) {
         ModularToolComponentRecord modularToolComponent = stack.get(ModRegistration.ModComponents.MODULAR_TOOL_COMPONENT);
         if (modularToolComponent == null) return defaultSpeed;
-        if (ModularTool.isModuleInstalledAndEnabled(modularToolComponent, ModRegistration.ModModules.MINING_SPEED_TWO)) return defaultSpeed * 3;
-        if (ModularTool.isModuleInstalledAndEnabled(modularToolComponent, ModRegistration.ModModules.MINING_SPEED_ONE)) return defaultSpeed * 2;
+        if (ModularToolUtil.isModuleInstalledAndEnabled(modularToolComponent, ModRegistration.ModModules.MINING_SPEED_TWO)) return defaultSpeed * 3;
+        if (ModularToolUtil.isModuleInstalledAndEnabled(modularToolComponent, ModRegistration.ModModules.MINING_SPEED_ONE)) return defaultSpeed * 2;
         return defaultSpeed;
     }
 

@@ -83,8 +83,8 @@ public class ModularShovelItem extends ShovelItem implements ModularTool {
 
     @Override
     public float getModularMiningSpeed(ItemStack stack, float defaultSpeed) {
-        if (ModularTool.isModuleInstalled(stack, ModRegistration.ModModules.MINING_SPEED_TWO)) return defaultSpeed * 3;
-        if (ModularTool.isModuleInstalled(stack, ModRegistration.ModModules.MINING_SPEED_ONE)) return defaultSpeed * 2;
+        if (ModularToolUtil.isModuleInstalled(stack, ModRegistration.ModModules.MINING_SPEED_TWO)) return defaultSpeed * 3;
+        if (ModularToolUtil.isModuleInstalled(stack, ModRegistration.ModModules.MINING_SPEED_ONE)) return defaultSpeed * 2;
         return defaultSpeed;
     }
 
@@ -96,7 +96,7 @@ public class ModularShovelItem extends ShovelItem implements ModularTool {
 
     @Override
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        if (!ModularTool.canMine(miner.getMainHandStack(), state)) return false;
+        if (!ModularToolUtil.canMine(miner.getMainHandStack(), state)) return false;
         return super.canMine(state, world, pos, miner);
     }
 
@@ -130,14 +130,14 @@ public class ModularShovelItem extends ShovelItem implements ModularTool {
 
     private static void miningSizeBreakHandler(World world, PlayerEntity player, BlockPos pos, MiningSizeCategoryData data) {
         Direction direction = RaycastUtil.GetBlockSide(player);
-        Pair<BlockPos, BlockPos> area = ModularTool.getMiningCorners(pos, direction, data);
+        Pair<BlockPos, BlockPos> area = ModularToolUtil.getMiningCorners(pos, direction, data);
 
         for (int i = area.getLeft().getX(); i <= area.getRight().getX(); i++) {
             for (int j = area.getLeft().getY(); j <= area.getRight().getY(); j++) {
                 for (int k = area.getLeft().getZ(); k <= area.getRight().getZ(); k++) {
                     BlockPos npos = new BlockPos(i, j, k);
                     if (player.getMainHandStack().isSuitableFor(world.getBlockState(npos))) {
-                        if (ModularTool.wouldBreak(player.getMainHandStack(), player, 1)) break;
+                        if (ModularToolUtil.wouldBreak(player.getMainHandStack(), player, 1)) break;
                         if (!player.getMainHandStack().getItem().canMine(world.getBlockState(npos), world, npos, player)) break;
                         if (world.breakBlock(npos, !player.isCreative())) {
                             player.getMainHandStack().damage(1, player, EquipmentSlot.MAINHAND);
@@ -150,7 +150,7 @@ public class ModularShovelItem extends ShovelItem implements ModularTool {
     private ActionResult miningSizeTillHandler(ItemUsageContext context, World world, PlayerEntity player, BlockPos pos, Hand hand, MiningSizeCategoryData data) {
         Direction direction = RaycastUtil.GetBlockSide(player);
         if (direction != Direction.UP) return ActionResult.FAIL;
-        Pair<BlockPos, BlockPos> area = ModularTool.getMiningCorners(pos, direction, data);
+        Pair<BlockPos, BlockPos> area = ModularToolUtil.getMiningCorners(pos, direction, data);
         for (int i = area.getLeft().getX(); i <= area.getRight().getX(); i++) {
             for (int k = area.getLeft().getZ(); k <= area.getRight().getZ(); k++) {
                 BlockPos newpos = new BlockPos(i, area.getLeft().getY(), k);

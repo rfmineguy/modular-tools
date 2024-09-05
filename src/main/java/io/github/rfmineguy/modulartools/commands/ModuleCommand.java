@@ -6,6 +6,7 @@ import io.github.rfmineguy.modulartools.ModularToolsMod;
 import io.github.rfmineguy.modulartools.components.ModularToolComponentRecord;
 import io.github.rfmineguy.modulartools.items.modulartools.ModularPickaxeItem;
 import io.github.rfmineguy.modulartools.items.modulartools.ModularTool;
+import io.github.rfmineguy.modulartools.items.modulartools.ModularToolUtil;
 import io.github.rfmineguy.modulartools.modules.Module;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.ArgumentTypes;
@@ -38,7 +39,7 @@ public class ModuleCommand {
                                             assert module != null;
 
                                             System.out.println(module);
-                                            ModularTool.addModule(player.getMainHandStack(), module);
+                                            ModularToolUtil.addModule(player.getMainHandStack(), module);
                                         } catch (Exception e) {
                                             context.getSource().sendMessage(Text.literal("Error occured"));
                                             e.printStackTrace();
@@ -59,7 +60,7 @@ public class ModuleCommand {
                                         Module module = ModRegistration.ModRegistries.MODULE_REGISTRY.get(moduleEntry.registryKey());
                                         assert module != null;
 
-                                        ModularTool.removeModule(player.getMainHandStack(), module);
+                                        ModularToolUtil.removeModule(player.getMainHandStack(), module);
                                         return 1;
                                     })
                             )
