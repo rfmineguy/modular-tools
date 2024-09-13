@@ -81,6 +81,4 @@ public record Module(int level, int category, Identifier id) {
         }
         return "%s %s Module".formatted(upperFirst(split[0]), upperFirst(split[1]));
     }
-
-
 }

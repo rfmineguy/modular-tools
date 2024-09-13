@@ -1,6 +1,6 @@
 package io.github.rfmineguy.modulartools.be_renderers;
 
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInfusionDroneBlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion1.modular_infusion_drone.ModularInfusionDroneBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;

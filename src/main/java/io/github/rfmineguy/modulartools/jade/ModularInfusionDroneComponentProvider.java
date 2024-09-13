@@ -1,7 +1,7 @@
 package io.github.rfmineguy.modulartools.jade;
 
 import io.github.rfmineguy.modulartools.ModularToolsMod;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone2.ModularInfusionDrone2BlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_drone2.ModularInfusionDrone2BlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;

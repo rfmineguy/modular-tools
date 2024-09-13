@@ -15,8 +15,6 @@ public class ModularToolDamageHandler implements CustomDamageHandler {
         assert componentRecord != null;
         if (componentRecord.hasModule(ModRegistration.ModModules.UNBREAKABLE) && componentRecord.getModuleData(ModRegistration.ModModules.UNBREAKABLE).isEnabled()) return 0;
         if (componentRecord.isBroken()) return 0;
-        System.out.println(stack.getDamage() + amount);
-        System.out.println(stack.getMaxDamage());
         if (stack.getDamage() + amount >= stack.getMaxDamage()) {
             componentRecord = componentRecord.setBroken(true);
             stack.set(ModRegistration.ModComponents.MODULAR_TOOL_COMPONENT, componentRecord);

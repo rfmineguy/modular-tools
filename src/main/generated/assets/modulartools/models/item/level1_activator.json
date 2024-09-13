@@ -1,4 +1,6 @@
 {
-  "parent": "minecraft:builtin/entity",
-  "textures": {}
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "modulartools:item/level1_activator"
+  }
 }

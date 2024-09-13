@@ -1,4 +1,4 @@
-package io.github.rfmineguy.modulartools.blocks.modular_infusion_controller_2;
+package io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_controller_2;
 
 import io.github.rfmineguy.modulartools.ModRegistration;
 import net.minecraft.block.*;

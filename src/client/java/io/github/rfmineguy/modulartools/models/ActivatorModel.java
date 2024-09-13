@@ -40,7 +40,6 @@ public class ActivatorModel extends Model {
                 .uv(1, 0).cuboid(-1.0F, -2.0F, -1.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(5.0F, 23.0F, -6.0F));
 
         ModelPartData cube_r1 = group.addChild("cube_r1", ModelPartBuilder.create().uv(1, 0).cuboid(0.0F, -2.0F, -1.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.5708F));
-
         ModelPartData cube_r2 = group.addChild("cube_r2", ModelPartBuilder.create().uv(1, 0).cuboid(0.0F, -2.0F, -1.0F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -3.0F, 0.0F, 0.0F, 0.0F, 1.5708F));
         return modelData;
     }

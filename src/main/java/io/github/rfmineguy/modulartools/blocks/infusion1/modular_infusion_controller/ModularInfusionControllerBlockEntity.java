@@ -1,4 +1,4 @@
-package io.github.rfmineguy.modulartools.blocks.modular_infusion_controller;
+package io.github.rfmineguy.modulartools.blocks.infusion1.modular_infusion_controller;
 
 import com.leakyabstractions.result.core.Results;
 import com.mojang.datafixers.util.Pair;
@@ -6,7 +6,7 @@ import com.mojang.serialization.DataResult;
 import io.github.rfmineguy.modulartools.ModularLevel;
 import io.github.rfmineguy.modulartools.ModRegistration;
 import io.github.rfmineguy.modulartools.blocks.PedestalBlockEntity;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInfusionDroneBlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion1.modular_infusion_drone.ModularInfusionDroneBlockEntity;
 import io.github.rfmineguy.modulartools.components.ModularToolComponentRecord;
 import io.github.rfmineguy.modulartools.items.modulartools.ModularPickaxeItem;
 import net.minecraft.block.BlockState;

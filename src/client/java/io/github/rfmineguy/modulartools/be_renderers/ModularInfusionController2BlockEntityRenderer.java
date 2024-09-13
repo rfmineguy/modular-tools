@@ -1,7 +1,7 @@
 package io.github.rfmineguy.modulartools.be_renderers;
 
 import io.github.rfmineguy.modulartools.ModularLevel;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller_2.ModularInfusionController2BlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_controller_2.ModularInfusionController2BlockEntity;
 import io.github.rfmineguy.modulartools.util.VecUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -35,7 +35,6 @@ public class ModularInfusionController2BlockEntityRenderer implements BlockEntit
         BlockPos pos = droneData.drone == null ? droneData.pos : droneData.drone.getPos();
         Vec3d particlePos = VecUtil.Lerp3d(pos.toCenterPos(), controller.getPos().toCenterPos(), controller.droneParticleLerp);
         controller.getWorld().addParticle(new DustParticleEffect(color.toVector3f(), 1.0f), particlePos.x, Math.floor(particlePos.y) + 0.02, particlePos.z, 0, 0, 0);
-        // controller.getWorld().addParticle(new DustParticleEffect(color.subtract(40, 30, 0).toVector3f(), 1.3f), droneData.pos.getX() + 0.5, droneData.pos.getY() + 0.5, droneData.pos.getZ() + 0.5, 0, 0, 0);
     }
 
     @Override

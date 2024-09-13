@@ -1,10 +1,10 @@
-package io.github.rfmineguy.modulartools.blocks.modular_infusion_drone2;
+package io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_drone2;
 
 import com.leakyabstractions.result.api.Result;
 import com.leakyabstractions.result.core.Results;
 import io.github.rfmineguy.modulartools.ModRegistration;
 import io.github.rfmineguy.modulartools.ModularLevel;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller_2.ModularInfusionController2BlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_controller_2.ModularInfusionController2BlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;

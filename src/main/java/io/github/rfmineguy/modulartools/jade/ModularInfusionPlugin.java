@@ -1,6 +1,6 @@
 package io.github.rfmineguy.modulartools.jade;
 
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone2.ModularInfusionDrone2Block;
+import io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_drone2.ModularInfusionDrone2Block;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;

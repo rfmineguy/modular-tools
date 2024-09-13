@@ -1,6 +1,8 @@
 package io.github.rfmineguy.modulartools.client;
 
+import io.github.rfmineguy.modulartools.components.tooltip_data.ActivatorTooltipData;
 import io.github.rfmineguy.modulartools.components.tooltip_data.LevelBlockTooltipData;
+import io.github.rfmineguy.modulartools.tooltip.ActivatorTooltipComponent;
 import io.github.rfmineguy.modulartools.tooltip.LevelBlockTooltipComponent;
 import io.github.rfmineguy.modulartools.tooltip.ModularToolTooltipComponent;
 import io.github.rfmineguy.modulartools.components.tooltip_data.ModularToolTooltipData;
@@ -27,6 +29,9 @@ public interface TooltipComponentMixin {
         }
         if (data instanceof ModularToolTooltipData modularTooltipData) {
             cir.setReturnValue(new ModularToolTooltipComponent(modularTooltipData.component()));
+        }
+        if (data instanceof ActivatorTooltipData activatorTooltipData) {
+            cir.setReturnValue(new ActivatorTooltipComponent(activatorTooltipData.component()));
         }
     }
 }

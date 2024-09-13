@@ -75,6 +75,8 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
             blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.MODULAR_INFUSION_CONTROLLER);
             blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.MODULAR_INFUSION_DRONE2);
             blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.MODULAR_INFUSION_CONTROLLER2);
+            blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.INFUSION_CONTROLLER);
+            blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.INFUSION_DRONE);
             blockStateModelGenerator.registerSimpleState(ModRegistration.ModBlocks.TEST_CONTROLLER);
         }
 
@@ -86,10 +88,19 @@ public class DatagenEntryPoint implements DataGeneratorEntrypoint {
             itemModelGenerator.register(ModRegistration.ModItems.MODULARIUM, Models.GENERATED);
             itemModelGenerator.register(ModRegistration.ModItems.MODULAR_PICKAXE, Models.GENERATED);
             itemModelGenerator.register(ModRegistration.ModItems.MODULAR_SHOVEL, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.MODULAR_WRENCH, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.LEVEL1_ACTIVATOR, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.LEVEL2_ACTIVATOR, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.LEVEL3_ACTIVATOR, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.LEVEL4_ACTIVATOR, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.LEVEL5_ACTIVATOR, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.LEVEL6_ACTIVATOR, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.LEVEL7_ACTIVATOR, Models.GENERATED);
+            itemModelGenerator.register(ModRegistration.ModItems.LEVEL8_ACTIVATOR, Models.GENERATED);
 
-            itemModelGenerator.writer.accept(Registries.ITEM.getId(ModRegistration.ModItems.LEVEL1_ACTIVATOR).withPrefixedPath("item/"), () -> {
-                return generateActivatorItemModel(ModRegistration.ModItems.LEVEL1_ACTIVATOR);
-            });
+            //itemModelGenerator.writer.accept(Registries.ITEM.getId(ModRegistration.ModItems.LEVEL1_ACTIVATOR).withPrefixedPath("item/"), () -> {
+            //    return generateActivatorItemModel(ModRegistration.ModItems.LEVEL1_ACTIVATOR);
+            //});
             ModRegistration.ModRegistries.MODULE_REGISTRY.forEach(module -> {
                 Identifier id = ModRegistration.ModRegistries.MODULE_REGISTRY.getId(module);
                 assert id != null;

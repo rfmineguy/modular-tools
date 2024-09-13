@@ -1,23 +1,28 @@
 package io.github.rfmineguy.modulartools;
 
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller.ModularInfusionControllerBlock;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller.ModularInfusionControllerBlockEntity;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller_2.ModularInfusionController2Block;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller_2.ModularInfusionController2BlockEntity;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInfusionDroneBlockEntity;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone.ModularInfusionDroneBlock;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone2.ModularInfusionDrone2Block;
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_drone2.ModularInfusionDrone2BlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion1.modular_infusion_controller.ModularInfusionControllerBlock;
+import io.github.rfmineguy.modulartools.blocks.infusion1.modular_infusion_controller.ModularInfusionControllerBlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_controller_2.ModularInfusionController2Block;
+import io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_controller_2.ModularInfusionController2BlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion1.modular_infusion_drone.ModularInfusionDroneBlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion1.modular_infusion_drone.ModularInfusionDroneBlock;
+import io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_drone2.ModularInfusionDrone2Block;
+import io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_drone2.ModularInfusionDrone2BlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion3.controller.InfusionControllerBlock;
+import io.github.rfmineguy.modulartools.blocks.infusion3.controller.InfusionControllerBlockEntity;
+import io.github.rfmineguy.modulartools.blocks.infusion3.drone.InfusionDroneBlock;
+import io.github.rfmineguy.modulartools.blocks.infusion3.drone.InfusionDroneBlockEntity;
 import io.github.rfmineguy.modulartools.commands.ModuleCommand;
 import io.github.rfmineguy.modulartools.commands.RepairCommand;
+import io.github.rfmineguy.modulartools.components.ActivatorComponentRecord;
 import io.github.rfmineguy.modulartools.components.LevelBlockComponentRecord;
 import io.github.rfmineguy.modulartools.components.ModularToolComponentRecord;
-import io.github.rfmineguy.modulartools.components.ModularToolComponentRecord2;
 import io.github.rfmineguy.modulartools.components.ModuleComponentRecord;
 import io.github.rfmineguy.modulartools.events.listeners.BlockBreakDirectionListener;
 import io.github.rfmineguy.modulartools.items.ActivatorItem;
 import io.github.rfmineguy.modulartools.items.LevelBlockItem;
+import io.github.rfmineguy.modulartools.items.ModularWrenchItem;
 import io.github.rfmineguy.modulartools.items.modulartools.*;
 import io.github.rfmineguy.modulartools.items.ModuleItem;
 import io.github.rfmineguy.modulartools.modules.Module;
@@ -38,7 +43,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.suggestion.SuggestionProviders;
 import net.minecraft.component.ComponentType;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.UnbreakableComponent;
 import net.minecraft.item.*;
 import net.minecraft.registry.*;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
@@ -48,7 +54,6 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class ModRegistration {
@@ -65,22 +70,30 @@ public class ModRegistration {
             Identifier id  = Identifier.of(ModularToolsMod.MODID, idString);
             return Registry.register(Registries.ITEM, id, item);
         }
-        private static ActivatorItem registerActivatorItem(String idString, ModularLevel level) {
-            Identifier id = Identifier.of(ModularToolsMod.MODID, idString);
-            return Registry.register(Registries.ITEM, id, new ActivatorItem(new Item.Settings()));
-        }
 
         public static final Item MODULARIUM                   = registerItem("modularium", new Item(new Item.Settings()));
+
+        public static final Item MODULAR_WRENCH               = registerItem("modular_wrench", new ModularWrenchItem(new Item.Settings().component(DataComponentTypes.UNBREAKABLE, new UnbreakableComponent(false))));
         public static final Item MODULAR_PICKAXE              = registerItem("modular_pickaxe", new ModularPickaxeItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
         public static final Item MODULAR_SHOVEL               = registerItem("modular_shovel", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
         public static final Item MODULAR_AXE                  = registerItem("modular_axe", new ModularAxeItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
         public static final Item MODULAR_HOE                  = registerItem("modular_hoe", new ModularHoeItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
         // public static final Item MODULAR_SWORD                = registerItem("modular_sword", new ModularShovelItem(ToolMaterials.IRON, new Item.Settings().component(ModComponents.MODULAR_TOOL_COMPONENT, ModularToolComponentRecord.DEFAULT).customDamage(new ModularToolDamageHandler())));
-        public static final ActivatorItem LEVEL1_ACTIVATOR    = registerActivatorItem("level1_activator", ModularLevel.ONE);
+        // public static final ActivatorItem LEVEL1_ACTIVATOR    = registerActivatorItem("level1_activator", ModularLevel.ONE);
+
+        public static final Item LEVEL1_ACTIVATOR             = registerItem("level1_activator", new ActivatorItem(new Item.Settings().component(ModComponents.ACTIVATOR_COMPONENT, ActivatorComponentRecord.ofLevel(ModularLevel.ONE))));
+        public static final Item LEVEL2_ACTIVATOR             = registerItem("level2_activator", new ActivatorItem(new Item.Settings().component(ModComponents.ACTIVATOR_COMPONENT, ActivatorComponentRecord.ofLevel(ModularLevel.TWO))));
+        public static final Item LEVEL3_ACTIVATOR             = registerItem("level3_activator", new ActivatorItem(new Item.Settings().component(ModComponents.ACTIVATOR_COMPONENT, ActivatorComponentRecord.ofLevel(ModularLevel.THREE))));
+        public static final Item LEVEL4_ACTIVATOR             = registerItem("level4_activator", new ActivatorItem(new Item.Settings().component(ModComponents.ACTIVATOR_COMPONENT, ActivatorComponentRecord.ofLevel(ModularLevel.FOUR))));
+        public static final Item LEVEL5_ACTIVATOR             = registerItem("level5_activator", new ActivatorItem(new Item.Settings().component(ModComponents.ACTIVATOR_COMPONENT, ActivatorComponentRecord.ofLevel(ModularLevel.FIVE))));
+        public static final Item LEVEL6_ACTIVATOR             = registerItem("level6_activator", new ActivatorItem(new Item.Settings().component(ModComponents.ACTIVATOR_COMPONENT, ActivatorComponentRecord.ofLevel(ModularLevel.SIX))));
+        public static final Item LEVEL7_ACTIVATOR             = registerItem("level7_activator", new ActivatorItem(new Item.Settings().component(ModComponents.ACTIVATOR_COMPONENT, ActivatorComponentRecord.ofLevel(ModularLevel.SEVEN))));
+        public static final Item LEVEL8_ACTIVATOR             = registerItem("level8_activator", new ActivatorItem(new Item.Settings().component(ModComponents.ACTIVATOR_COMPONENT, ActivatorComponentRecord.ofLevel(ModularLevel.EIGHT))));
 
         public static void registerAll() {}
     }
     public static class ModBlocks {
+
         private static Block registerBlock(String idString, Block block) {
             Identifier id = Identifier.of(ModularToolsMod.MODID, idString);
             Block b = Registry.register(Registries.BLOCK, id, block);
@@ -101,6 +114,9 @@ public class ModRegistration {
         public static final Block MODULAR_INFUSION_DRONE      = registerBlock("modular_infusion_drone", new ModularInfusionDroneBlock());
         public static final Block MODULAR_INFUSION_DRONE2     = registerBlock("modular_infusion_drone2", new ModularInfusionDrone2Block());
 
+        public static final Block INFUSION_CONTROLLER         = registerBlock("infusion_controller", new InfusionControllerBlock());
+        public static final Block INFUSION_DRONE              = registerBlock("infusion_drone", new InfusionDroneBlock());
+
         public static final Block TEST_CONTROLLER             = registerBlock("controller_test", new Block(AbstractBlock.Settings.copy(Blocks.ANVIL)));
 
         // Activators
@@ -117,7 +133,6 @@ public class ModRegistration {
         public static void registerAll() {}
     }
     public static class ModModules {
-
         private static Module registerModuleAndItem(String idString, Module module) {
             ModItems.registerItem(idString, new ModuleItem(new Item.Settings().component(ModComponents.MODULE_COMPONENT, ModuleComponentRecord.ofLevel(module.getLevelEnum()))));
             return Registry.register(ModRegistries.MODULE_REGISTRY,
@@ -131,13 +146,16 @@ public class ModRegistration {
         public static final Module MINING_SIZE_THREE          = registerModuleAndItem("21x21.one", Module.of(ModularLevel.THREE, ModuleCategory.MINING_SIZE));
         public static final Module UNBREAKABLE                = registerModuleAndItem("unbreakable.one", Module.of(ModularLevel.THREE, ModuleCategory.UNBREAKABLE)) ;
 
-        public static void registerAll() {}
+        public static void registerAll() {
+        }
     }
     public static class ModComponents {
         private static <T> ComponentType<T> registerComponent(String id, Supplier<ComponentType.Builder<T>> componentTypeBuilder) {
             return Registry.register(Registries.DATA_COMPONENT_TYPE, id, componentTypeBuilder.get().build());
         }
-
+        public static final ComponentType<ActivatorComponentRecord> ACTIVATOR_COMPONENT = registerComponent("activator", () -> {
+            return ComponentType.<ActivatorComponentRecord>builder().codec(ActivatorComponentRecord.CODEC);
+        });
         public static final ComponentType<ModularToolComponentRecord> MODULAR_TOOL_COMPONENT = registerComponent("modular_tool", () -> {
             return ComponentType.<ModularToolComponentRecord>builder().codec(ModularToolComponentRecord.CODEC);
         });
@@ -151,6 +169,7 @@ public class ModRegistration {
         public static void registerAll() {}
     }
     public static class ModBlockEntities {
+
         private static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String idString, Block block, BlockEntityType.BlockEntityFactory<T> factory) {
             return Registry.register(
                     Registries.BLOCK_ENTITY_TYPE,
@@ -159,6 +178,14 @@ public class ModRegistration {
             );
         }
 
+        public static final BlockEntityType<InfusionControllerBlockEntity> INFUSION_CONTROLLER_BE =
+                registerBlockEntity("infusion_controller_be",
+                        ModBlocks.INFUSION_CONTROLLER,
+                        InfusionControllerBlockEntity::new);
+        public static final BlockEntityType<InfusionDroneBlockEntity> INFUSION_DRONE_BE =
+                registerBlockEntity("infusion_drone_be",
+                        ModBlocks.INFUSION_DRONE,
+                        InfusionDroneBlockEntity::new);
         public static final BlockEntityType<ModularInfusionControllerBlockEntity> MODULAR_INFUSION_CONTROLLER_BLOCK_ENTITY
                 = registerBlockEntity("modular_infusion_controller_block_entity",
                 ModBlocks.MODULAR_INFUSION_CONTROLLER,
@@ -189,6 +216,13 @@ public class ModRegistration {
                 .entries(((displayContext, entries) -> {
                     entries.add(ModItems.MODULARIUM);
                     entries.add(ModItems.LEVEL1_ACTIVATOR);
+                    entries.add(ModItems.LEVEL2_ACTIVATOR);
+                    entries.add(ModItems.LEVEL3_ACTIVATOR);
+                    entries.add(ModItems.LEVEL4_ACTIVATOR);
+                    entries.add(ModItems.LEVEL5_ACTIVATOR);
+                    entries.add(ModItems.LEVEL6_ACTIVATOR);
+                    entries.add(ModItems.LEVEL7_ACTIVATOR);
+                    entries.add(ModItems.LEVEL8_ACTIVATOR);
                     entries.add(ModItems.MODULAR_PICKAXE);
                     entries.add(ModItems.MODULAR_AXE);
                     entries.add(ModItems.MODULAR_HOE);
@@ -221,12 +255,12 @@ public class ModRegistration {
         }
 
         public static final SuggestionProvider<ServerCommandSource> MODULE_SUGGESTION_PROVIDER = registerSuggestionProvider("modules", ((context, builder) ->
-                CommandSource.suggestFromIdentifier(
-                        ModRegistries.MODULE_REGISTRY.stream(),
-                        builder,
-                        Module::id,
-                        module -> Text.literal(module.id().getPath()))
-                )
+            CommandSource.suggestFromIdentifier(
+                ModRegistries.MODULE_REGISTRY.stream(),
+                builder,
+                Module::id,
+                module -> Text.literal(module.id().getPath()))
+            )
         );
 
         public static void registerAll() {
@@ -255,15 +289,10 @@ public class ModRegistration {
     }
     public static class ModNetworking {
         public static final Identifier MODULAR_TOOL_PACKET_ID = Identifier.of(ModularToolsMod.MODID, "modular_tool_packet");
+
         public static void registerAll() {
             PayloadTypeRegistry.playC2S().register(ModularToolSyncPayload.ID, ModularToolSyncPayload.PACKET_CODEC);
-            ServerPlayNetworking.registerGlobalReceiver(ModularToolSyncPayload.ID, (payload, context) -> {
-                UUID uuid = payload.uuid();
-                ModularToolComponentRecord record = payload.record();
-                PlayerEntity player = context.player().getServerWorld().getPlayerByUuid(uuid);
-                assert player != null;
-                player.getMainHandStack().set(ModComponents.MODULAR_TOOL_COMPONENT, record);
-            });
+            ServerPlayNetworking.registerGlobalReceiver(ModularToolSyncPayload.ID, ModularToolSyncPayload.MODULAR_TOOL_PACKET);
         }
     }
 
@@ -281,5 +310,4 @@ public class ModRegistration {
         BlockBreakDirectionListener.register();
         ModCommands.registerAll();
     }
-
 }

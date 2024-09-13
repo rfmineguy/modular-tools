@@ -1,4 +1,4 @@
-package io.github.rfmineguy.modulartools.blocks.modular_infusion_drone;
+package io.github.rfmineguy.modulartools.blocks.infusion1.modular_infusion_drone;
 
 import io.github.rfmineguy.modulartools.ModRegistration;
 import io.github.rfmineguy.modulartools.blocks.PedestalBlockEntity;

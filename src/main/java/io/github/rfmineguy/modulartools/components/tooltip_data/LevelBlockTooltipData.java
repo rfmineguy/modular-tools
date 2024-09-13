@@ -8,7 +8,6 @@ public record LevelBlockTooltipData(LevelBlockComponentRecord component) impleme
         this.component = component;
     }
 
-    @Override
     public LevelBlockComponentRecord component() {
         return component;
     }

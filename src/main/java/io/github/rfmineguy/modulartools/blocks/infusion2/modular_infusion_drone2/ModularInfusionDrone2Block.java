@@ -1,6 +1,5 @@
-package io.github.rfmineguy.modulartools.blocks.modular_infusion_drone2;
+package io.github.rfmineguy.modulartools.blocks.infusion2.modular_infusion_drone2;
 
-import io.github.rfmineguy.modulartools.blocks.modular_infusion_controller_2.ModularInfusionController2BlockEntity;
 import io.github.rfmineguy.modulartools.util.MultiblockUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;

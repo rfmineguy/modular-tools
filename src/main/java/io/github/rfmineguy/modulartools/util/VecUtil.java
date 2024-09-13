@@ -13,4 +13,8 @@ public class VecUtil {
     public static Vec3d DirectionBetween(Vec3d a, Vec3d b) {
         return a.subtract(b).normalize();
     }
+
+    public static double Lerp1d(double x, double x1, float t) {
+        return x + (x1 - x) * t;
+    }
 }
